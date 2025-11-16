@@ -15,7 +15,7 @@ export default function Home() {
               href="/"
               className="font-medium text-zinc-950 dark:text-zinc-50"
             >
-              Random link
+              12345678901234567890qwertyuiopasdfghjklzxcvbnm12345678901234567890
             </a>
           </p>
         </div>
