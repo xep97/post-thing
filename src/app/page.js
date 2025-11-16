@@ -40,7 +40,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Terms of use
+            Terms of use!
           </a>
         </div>
       </main>
