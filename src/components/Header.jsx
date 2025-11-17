@@ -23,7 +23,7 @@ export default function Header() {
                 href="posts"
                 rel="noopener noreferrer"
               >
-                Read post
+                Read posts
               </a>
               <a
                 className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
@@ -46,6 +46,14 @@ export default function Header() {
                 />
                 New post
               </a>
+              <a
+                className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+                href="post/762c6994-ad71-4fcf-b1cc-e7d8514b38a2"
+                rel="noopener noreferrer"
+              >
+                Example post
+              </a>
+
           </div>
         </div>
     </>
