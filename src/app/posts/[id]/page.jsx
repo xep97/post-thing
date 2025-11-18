@@ -41,7 +41,7 @@ export default function PostPage() {
   if (!post) return <div>No post found.</div>;
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="post-list">
       <PostCard post={post} />
     </div>
   );

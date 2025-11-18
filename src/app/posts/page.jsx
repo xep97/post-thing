@@ -24,7 +24,7 @@ export default function PostsPage() {
   }, []);
 
   return (
-    <div className="max-w-2xl mx-auto p-4 space-y-6">
+    <div className="post-list">
       <h1 className="text-2xl font-bold mb-4">Posts</h1>
 
       {loading && <p>Loading…</p>}

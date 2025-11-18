@@ -4,8 +4,8 @@ import Image from 'next/image'
 export default function Header() {
   return (
     <>
-        <div className='flex flex-row items-center justify-between'>
-            <a href="/" className='flex flex-row items-center justify-items-start'>
+        <div className='header'>
+            <a href="/" className='header-logo'>
               <Image
                 className="dark:invert"
                 src="/file.svg"
@@ -17,30 +17,30 @@ export default function Header() {
               <h1>Post something</h1>
             </a>
             
-            <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+            <nav className="header-nav">
               <a
-                className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+                className="header-nav-link"
                 href="find"
                 rel="noopener noreferrer"
               >
                 Find post
               </a>
               <a
-                className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+                className="header-nav-link"
                 href="posts"
                 rel="noopener noreferrer"
               >
                 All posts
               </a>
               <a
-                className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+                className="header-nav-link"
                 href="my-posts"
                 rel="noopener noreferrer"
               >
                 My posts
               </a>
               <a
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
+                className="header-nav-link"
                 href="create"
                 rel="noopener noreferrer"
               >
@@ -53,7 +53,7 @@ export default function Header() {
                 />
                 New post
               </a>
-          </div>
+          </nav>
         </div>
     </>
   )

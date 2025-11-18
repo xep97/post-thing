@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 export default function PostCard({ post, onDeleted }) {
   const [countdown, setCountdown] = useState("");
@@ -31,11 +32,11 @@ export default function PostCard({ post, onDeleted }) {
       const now = new Date();
 
       if (fromTime && now < fromTime) {
-        setCountdown(`Available in: ${formatDiff(fromTime - now)}`);
+        setCountdown(`Post will be available in: ${formatDiff(fromTime - now)}`);
       } else if (fromTime && toTime && now >= fromTime && now <= toTime) {
-        setCountdown(`Expires in: ${formatDiff(toTime - now)}`);
+        setCountdown(`Post will be deleted in: ${formatDiff(toTime - now)}`);
       } else if (toTime && now > toTime) {
-        setCountdown("Post is gone");
+        setCountdown("Post is gone forever");
       } else {
         setCountdown("");
       }
@@ -47,7 +48,7 @@ export default function PostCard({ post, onDeleted }) {
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      return `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
     };
 
     updateCountdown();
@@ -81,19 +82,21 @@ export default function PostCard({ post, onDeleted }) {
   const showContent = isActive || isAuthor;
 
   return (
-    <div className="border p-4 rounded shadow">
+    <div className="post">
       
       {showContent && (
         <>
-          <h2
-            className="text-xl font-semibold"
-            style={{
-              color: textColor,
-              fontFamily,
-            }}
-          >
-            {post.name}
-          </h2>
+          <Link href={`/posts/${post.post_id}`}>
+            <h2
+              className="post-title"
+              style={{
+                color: textColor,
+                fontFamily,
+              }}
+            >
+              {post.name}
+            </h2>
+          </Link>
 
           <p
             className="mt-2"
@@ -108,7 +111,7 @@ export default function PostCard({ post, onDeleted }) {
       )}
 
       {/* Countdown always visible */}
-      <div className="mt-4 text-blue-600 font-semibold">{countdown}</div>
+      <div className="post-countdown">{countdown}</div>
 
       {isAuthor && (
         <button

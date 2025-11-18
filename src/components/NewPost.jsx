@@ -5,11 +5,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 // All possible fonts — you can add/remove as needed
 const ALL_FONTS = [
-  "Inter", "Roboto", "Montserrat", "Lato", "Poppins",
-  "Open Sans", "Oswald", "Raleway", "Merriweather",
-  "Playfair Display", "Nunito", "Josefin Sans",
-  "PT Serif", "Karla", "Rubik", "Source Sans Pro",
-  "Work Sans", "Titillium Web", "Cabin", "Quicksand"
+  "Geist", "Geist_Mono", "Pacifico", "Roboto", "Chewy", "Schoolbell", "Orbitron", "Cormorant_SC"
 ];
 
 // Convert HEX → HSL
@@ -55,10 +51,12 @@ export default function PostUploader() {
   const [fontOptions, setFontOptions] = useState([]);
   const [selectedFont, setSelectedFont] = useState("");
 
+  // 🌈 NEW: hue slider 0–360
+  const [hue, setHue] = useState(180);
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Generate or load authorKey on first render
   useEffect(() => {
     let storedKey = localStorage.getItem("authorKey");
     if (!storedKey) {
@@ -89,6 +87,9 @@ export default function PostUploader() {
         hsl: hslColor,
       },
       font: selectedFont,
+
+      // 🌈 NEW: hue field in JSON
+      hue: hue
     };
 
     const { error } = await supabase
@@ -115,18 +116,19 @@ export default function PostUploader() {
       setAvailableFrom("");
       setAvailableTo("");
       setColorHex("#6633ff");
+      setHue(180);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded-lg shadow">
-      <h2 className="text-xl font-semibold mb-4">Create Post</h2>
+    <div className="">
+      <h2 className="">Create Post</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="new-post">
 
         <input
           type="text"
-          className="w-full p-2 border rounded"
+          className="input-text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -134,7 +136,7 @@ export default function PostUploader() {
         />
 
         <textarea
-          className="w-full p-2 border rounded"
+          className="textarea"
           placeholder="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -142,29 +144,26 @@ export default function PostUploader() {
           required
         />
 
-        <div>
-          <label className="block mb-1">Available From</label>
-          <input
-            type="datetime-local"
-            className="w-full p-2 border rounded"
-            value={availableFrom}
-            onChange={(e) => setAvailableFrom(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1">Available To</label>
-          <input
-            type="datetime-local"
-            className="w-full p-2 border rounded"
-            value={availableTo}
-            onChange={(e) => setAvailableTo(e.target.value)}
-          />
-        </div>
+        <label className="label">Available From</label>
+        <input
+          type="datetime-local"
+          className="input-date"
+          value={availableFrom}
+          onChange={(e) => setAvailableFrom(e.target.value)}
+        />
+      
+        <label className="label">Available To</label>
+        <input
+          type="datetime-local"
+          className="input-date"
+          value={availableTo}
+          onChange={(e) => setAvailableTo(e.target.value)}
+        />
+        
 
         <input
           type="text"
-          className="w-full p-2 border rounded bg-gray-100"
+          className="input-text"
           placeholder="Author Key"
           value={authorKey}
           onChange={(e) => {
@@ -172,45 +171,45 @@ export default function PostUploader() {
             localStorage.setItem("authorKey", e.target.value);
           }}
         />
+  
 
-        {/* Preferences UI */}
-        <div className="p-3 border rounded">
-          <h3 className="font-medium mb-2">Preferences</h3>
+        {/* 🌈 HUE SLIDER */}
+        <label className="label">Choose color</label>
+        <input
+          type="range"
+          min="0"
+          max="360"
+          value={hue}
+          onChange={(e) => setHue(Number(e.target.value))}
+          className="input-slider"
+        />
+        <div className="">Hue: {hue}°</div>
 
-          {/* Color Picker */}
-          <label className="block mb-1">Choose Color</label>
-          <input
-            type="color"
-            value={colorHex}
-            onChange={(e) => setColorHex(e.target.value)}
-            className="w-20 h-10 p-1 cursor-pointer border rounded mb-3"
-          />
-
-          {/* Font Selector */}
-          <label className="block mb-1 mt-2">Choose Font</label>
-          <select
-            className="w-full p-2 border rounded"
-            value={selectedFont}
-            onChange={(e) => setSelectedFont(e.target.value)}
-          >
-            {fontOptions.map((font) => (
-              <option key={font} value={font}>
-                {font}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Font Selector */}
+        <label className="">Choose Font</label>
+        <select
+          className="input-select"
+          value={selectedFont}
+          onChange={(e) => setSelectedFont(e.target.value)}
+        >
+          {fontOptions.map((font) => (
+            <option key={font} value={font}>
+              {font}
+            </option>
+          ))}
+        </select>
+      
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="button"
         >
           {loading ? "Saving..." : "Submit Post"}
         </button>
       </form>
 
-      {message && <p className="mt-4">{message}</p>}
+      {message && <p className="">{message}</p>}
     </div>
   );
 }
