@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function PostUploader() {
@@ -12,6 +12,16 @@ export default function PostUploader() {
   const [preferences, setPreferences] = useState("{}"); // JSON string
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Generate or load authorKey on first render
+  useEffect(() => {
+    let storedKey = localStorage.getItem("authorKey");
+    if (!storedKey) {
+      storedKey = crypto.randomUUID();
+      localStorage.setItem("authorKey", storedKey);
+    }
+    setAuthorKey(storedKey);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,8 +61,8 @@ export default function PostUploader() {
       setContent("");
       setAvailableFrom("");
       setAvailableTo("");
-      setAuthorKey("");
       setPreferences("{}");
+      // Keep the authorKey the same for next post
     }
   };
 
@@ -102,10 +112,13 @@ export default function PostUploader() {
 
         <input
           type="text"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded bg-gray-100"
           placeholder="Author Key"
           value={authorKey}
-          onChange={(e) => setAuthorKey(e.target.value)}
+          onChange={(e) => {
+            setAuthorKey(e.target.value);
+            localStorage.setItem("authorKey", e.target.value); // save changes if user edits
+          }}
         />
 
         <textarea
