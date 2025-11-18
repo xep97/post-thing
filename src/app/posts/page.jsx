@@ -25,7 +25,7 @@ export default function PostsPage() {
 
   return (
     <div className="post-list">
-      <h1 className="text-2xl font-bold mb-4">Posts</h1>
+      <h1 className="page-title">Posts</h1>
 
       {loading && <p>Loading…</p>}
 

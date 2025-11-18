@@ -45,7 +45,7 @@ export default function MyPostsPage() {
 
   return (
     <div className="post-list">
-      <h1 className="text-2xl font-bold mb-4">My Posts</h1>
+      <h1 className="page-title">My Posts</h1>
 
       {posts.length === 0 && <p>No posts found for this author.</p>}
 

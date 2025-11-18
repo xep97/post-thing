@@ -53,6 +53,11 @@ export default function PostUploader() {
 
   // 🌈 NEW: hue slider 0–360
   const [hue, setHue] = useState(180);
+  // Update CSS variable when hue changes
+    useEffect(() => {
+      document.documentElement.style.setProperty("--hue", hue);
+    }, [hue]);
+
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -122,8 +127,6 @@ export default function PostUploader() {
 
   return (
     <div className="">
-      <h2 className="">Create Post</h2>
-
       <form onSubmit={handleSubmit} className="new-post">
 
         <input
@@ -160,7 +163,7 @@ export default function PostUploader() {
           onChange={(e) => setAvailableTo(e.target.value)}
         />
         
-
+        <label className="label">Your user ID. Save it and/or replace it to login with another account.</label>
         <input
           type="text"
           className="input-text"
@@ -183,7 +186,6 @@ export default function PostUploader() {
           onChange={(e) => setHue(Number(e.target.value))}
           className="input-slider"
         />
-        <div className="">Hue: {hue}°</div>
 
         {/* Font Selector */}
         <label className="">Choose Font</label>
@@ -199,6 +201,7 @@ export default function PostUploader() {
           ))}
         </select>
       
+        <label className="label">By submitting a post you agree to the <a href="terms" target="_blank">terms of service</a>.</label>
 
         <button
           type="submit"

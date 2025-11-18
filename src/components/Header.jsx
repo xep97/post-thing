@@ -14,7 +14,7 @@ export default function Header() {
                 height={20}
                 priority
               />
-              <h1>Post something</h1>
+              <h2>Post something</h2>
             </a>
             
             <nav className="header-nav">

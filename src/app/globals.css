@@ -38,7 +38,10 @@
 body {
   background: var(--bg-1);
   color: var(--fg-1);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+a {
+  color: var(--fg-2);
 }
 
 .flex {
@@ -61,12 +64,14 @@ body {
   flex-direction: row;
   justify-content: space-between;
   height: 60px;
+  box-shadow: 0 1px 5px var(--fg-3);
 }
 .header-logo {
   display: flex;
   flex-direction: row;
   text-decoration: none;
   color: var(--fg-1);
+  align-items: center;
 }
 .header-nav {
   display: flex;
@@ -85,6 +90,24 @@ body {
   background-color: var(--bg-3);
 }
 
+.footer {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title {
+  width: 100%;
+  max-width: 800px;
+  justify-self: center;
+  padding: 10px;
+  font-size: 50px;
+  color: var(--fg-2);
+  text-shadow: 0px 1px 0px var(--bg-2), 0px -1px 0px var(--fg-1);
+}
+
 
 
 .new-post {
@@ -98,22 +121,23 @@ body {
   border-radius: 20px;
   overflow: hidden;
   padding: 10px;
+  box-shadow: 0 1px 5px var(--fg-3);
 }
 .new-post .label {
 
 }
-.new-post .input-text {
+.input-text {
   padding: 15px;
   background-color: var(--bg-2);
   color: var(--fg-1);
-  box-shadow: inset 0 0 10px black;
+  box-shadow: inset 0 1px 5px var(--fg-3);
   border-radius: 10px;
 }
 .new-post .textarea {
   padding: 10px;
   background-color: var(--bg-2);
   color: var(--fg-1);
-  box-shadow: inset 0 0 10px black;
+  box-shadow: inset 0 1px 5px var(--fg-3);
   border-radius: 10px;
   max-width: 100%;
   min-width: 100%;
@@ -129,8 +153,9 @@ body {
   width: 100%;
   max-width: 240px;
   padding: 10px;
-  background-color: var(--bg-3);
+  background-color: var(--bg-2);
   color: var(--fg-1);
+  box-shadow: inset 0 1px 5px var(--fg-3);
   border-radius: 10px;
 }
 .new-post .input-slider {
@@ -140,7 +165,7 @@ body {
   appearance: none;
   height: 20px;
   background-image: linear-gradient(to right, hsl(0, 75%, 50%) 0%, hsl(90, 75%, 50%) 25%, hsl(180, 75%, 50%) 50%, hsl(270, 75%, 50%) 75%, hsl(360, 75%, 50%) 100%);
-  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 5px var(--fg-3);
   border-radius: 10px;
 }
 .input-slider::-webkit-slider-thumb {
@@ -148,19 +173,19 @@ body {
   appearance: none;
   width: 30px;
   height: 30px;
-  background: var(--fg-1);
+  background: var(--fg-3);
   cursor: pointer;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 5px var(--fg-3);
   border-radius: 5px;
 }
 
 .input-slider::-moz-range-thumb {
   width: 30px;
   height: 30px;
-  background: var(--fg-1);
+  background: var(--fg-3);
   cursor: pointer;
   border: none;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 5px var(--fg-3);
   border-radius: 5px;
 
 }
@@ -174,6 +199,7 @@ body {
   width: 100%;
   max-width: 240px;
   border-radius: 10px;
+  box-shadow: 0 1px 5px var(--fg-3);
 }
 .new-post .button {
   padding: 10px;
@@ -182,6 +208,7 @@ body {
   width: 100%;
   max-width: 240px;
   border-radius: 10px;
+  box-shadow: 0 1px 5px var(--fg-3);
 }
 
 
@@ -196,6 +223,15 @@ body {
     background-color: var(--bg-2);
     width: 100%;
     max-width: 800px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 1px 5px var(--fg-3);
+}
+.post .post-title {
+  text-decoration: none;
 }
 .post .button {
   padding: 10px;

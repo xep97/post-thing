@@ -86,8 +86,9 @@ export default function PostCard({ post, onDeleted }) {
       
       {showContent && (
         <>
-          <Link href={`/posts/${post.post_id}`}>
-            <h2
+        <h2>
+          <Link 
+              href={`/posts/${post.post_id}`}
               className="post-title"
               style={{
                 color: textColor,
@@ -95,8 +96,9 @@ export default function PostCard({ post, onDeleted }) {
               }}
             >
               {post.name}
-            </h2>
           </Link>
+        </h2>
+          
 
           <p
             className="mt-2"
