@@ -11,8 +11,19 @@ export default function PostCard({ post, onDeleted }) {
   const fromTime = post.available_from ? new Date(post.available_from) : null;
   const toTime = post.available_to ? new Date(post.available_to) : null;
 
+  // ------------- NEW: Extract styling from preferences ------------------
+  const prefs = post.preferences || {};
+  const fontFamily = prefs.font || "inherit";
+
+  let hsl = prefs.color?.hsl;
+  let textColor = "inherit";
+
+  if (hsl && typeof hsl.h === "number") {
+    textColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+  }
+  // ---------------------------------------------------------------------
+
   useEffect(() => {
-    // Get authorKey from localStorage
     const storedKey = localStorage.getItem("authorKey");
     if (storedKey) setAuthorKey(storedKey);
 
@@ -41,7 +52,6 @@ export default function PostCard({ post, onDeleted }) {
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-
     return () => clearInterval(interval);
   }, [post]);
 
@@ -68,22 +78,38 @@ export default function PostCard({ post, onDeleted }) {
   const isAuthor = authorKey && post.author_key === authorKey;
   const isActive = fromTime && toTime && now >= fromTime && now <= toTime;
 
-  // Show name/content if active or if user is the author
   const showContent = isActive || isAuthor;
 
   return (
     <div className="border p-4 rounded shadow">
+      
       {showContent && (
         <>
-          <h2 className="text-xl font-semibold">{post.name}</h2>
-          <p className="mt-2">{post.content}</p>
+          <h2
+            className="text-xl font-semibold"
+            style={{
+              color: textColor,
+              fontFamily,
+            }}
+          >
+            {post.name}
+          </h2>
+
+          <p
+            className="mt-2"
+            style={{
+              color: textColor,
+              fontFamily,
+            }}
+          >
+            {post.content}
+          </p>
         </>
       )}
 
       {/* Countdown always visible */}
       <div className="mt-4 text-blue-600 font-semibold">{countdown}</div>
 
-      {/* Delete button only for author */}
       {isAuthor && (
         <button
           onClick={handleDelete}
