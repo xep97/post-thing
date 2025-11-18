@@ -5,7 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function PostCard({ post, onDeleted }) {
   const [countdown, setCountdown] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
   const [authorKey, setAuthorKey] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -22,16 +21,12 @@ export default function PostCard({ post, onDeleted }) {
 
       if (fromTime && now < fromTime) {
         setCountdown(`Available in: ${formatDiff(fromTime - now)}`);
-        setIsVisible(false);
       } else if (fromTime && toTime && now >= fromTime && now <= toTime) {
         setCountdown(`Expires in: ${formatDiff(toTime - now)}`);
-        setIsVisible(true);
       } else if (toTime && now > toTime) {
         setCountdown("Post is gone");
-        setIsVisible(false);
       } else {
         setCountdown("");
-        setIsVisible(false);
       }
     };
 
@@ -65,22 +60,31 @@ export default function PostCard({ post, onDeleted }) {
       alert("Error deleting post: " + error.message);
     } else {
       alert("Post deleted successfully!");
-      if (onDeleted) onDeleted(post.post_id); // optional callback to remove from list
+      if (onDeleted) onDeleted(post.post_id);
     }
   };
 
+  const now = new Date();
+  const isAuthor = authorKey && post.author_key === authorKey;
+  const isActive = fromTime && toTime && now >= fromTime && now <= toTime;
+
+  // Show name/content if active or if user is the author
+  const showContent = isActive || isAuthor;
+
   return (
     <div className="border p-4 rounded shadow">
-      {isVisible && (
+      {showContent && (
         <>
           <h2 className="text-xl font-semibold">{post.name}</h2>
           <p className="mt-2">{post.content}</p>
         </>
       )}
+
+      {/* Countdown always visible */}
       <div className="mt-4 text-blue-600 font-semibold">{countdown}</div>
 
-      {/* Show delete button only if authorKey matches */}
-      {authorKey && post.author_key === authorKey && (
+      {/* Delete button only for author */}
+      {isAuthor && (
         <button
           onClick={handleDelete}
           disabled={loading}

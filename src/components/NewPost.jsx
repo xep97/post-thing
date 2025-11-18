@@ -3,13 +3,58 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
+// All possible fonts — you can add/remove as needed
+const ALL_FONTS = [
+  "Inter", "Roboto", "Montserrat", "Lato", "Poppins",
+  "Open Sans", "Oswald", "Raleway", "Merriweather",
+  "Playfair Display", "Nunito", "Josefin Sans",
+  "PT Serif", "Karla", "Rubik", "Source Sans Pro",
+  "Work Sans", "Titillium Web", "Cabin", "Quicksand"
+];
+
+// Convert HEX → HSL
+function hexToHsl(hex) {
+  hex = hex.replace("#", "");
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0, s = 0;
+  let l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100)
+  };
+}
+
 export default function PostUploader() {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [availableFrom, setAvailableFrom] = useState("");
   const [availableTo, setAvailableTo] = useState("");
   const [authorKey, setAuthorKey] = useState("");
-  const [preferences, setPreferences] = useState("{}"); // JSON string
+
+  // Preferences UI
+  const [colorHex, setColorHex] = useState("#6633ff");
+  const [fontOptions, setFontOptions] = useState([]);
+  const [selectedFont, setSelectedFont] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -23,20 +68,28 @@ export default function PostUploader() {
     setAuthorKey(storedKey);
   }, []);
 
+  // Pick 10 random fonts
+  useEffect(() => {
+    const shuffled = [...ALL_FONTS].sort(() => 0.5 - Math.random());
+    const randomTen = shuffled.slice(0, 10);
+    setFontOptions(randomTen);
+    setSelectedFont(randomTen[0]);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    let parsedPreferences = null;
+    const hslColor = hexToHsl(colorHex);
 
-    try {
-      parsedPreferences = preferences ? JSON.parse(preferences) : null;
-    } catch (err) {
-      setMessage("❌ Preferences must be valid JSON");
-      setLoading(false);
-      return;
-    }
+    const preferences = {
+      color: {
+        hex: colorHex,
+        hsl: hslColor,
+      },
+      font: selectedFont,
+    };
 
     const { error } = await supabase
       .from("posts")
@@ -47,7 +100,7 @@ export default function PostUploader() {
           available_from: availableFrom ? new Date(availableFrom).toISOString() : null,
           available_to: availableTo ? new Date(availableTo).toISOString() : null,
           author_key: authorKey,
-          preferences: parsedPreferences
+          preferences: preferences
         }
       ]);
 
@@ -61,8 +114,7 @@ export default function PostUploader() {
       setContent("");
       setAvailableFrom("");
       setAvailableTo("");
-      setPreferences("{}");
-      // Keep the authorKey the same for next post
+      setColorHex("#6633ff");
     }
   };
 
@@ -117,17 +169,37 @@ export default function PostUploader() {
           value={authorKey}
           onChange={(e) => {
             setAuthorKey(e.target.value);
-            localStorage.setItem("authorKey", e.target.value); // save changes if user edits
+            localStorage.setItem("authorKey", e.target.value);
           }}
         />
 
-        <textarea
-          className="w-full p-2 border rounded"
-          placeholder='Preferences (JSON), e.g. {"color":"blue"}'
-          value={preferences}
-          onChange={(e) => setPreferences(e.target.value)}
-          rows={3}
-        />
+        {/* Preferences UI */}
+        <div className="p-3 border rounded">
+          <h3 className="font-medium mb-2">Preferences</h3>
+
+          {/* Color Picker */}
+          <label className="block mb-1">Choose Color</label>
+          <input
+            type="color"
+            value={colorHex}
+            onChange={(e) => setColorHex(e.target.value)}
+            className="w-20 h-10 p-1 cursor-pointer border rounded mb-3"
+          />
+
+          {/* Font Selector */}
+          <label className="block mb-1 mt-2">Choose Font</label>
+          <select
+            className="w-full p-2 border rounded"
+            value={selectedFont}
+            onChange={(e) => setSelectedFont(e.target.value)}
+          >
+            {fontOptions.map((font) => (
+              <option key={font} value={font}>
+                {font}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <button
           type="submit"
