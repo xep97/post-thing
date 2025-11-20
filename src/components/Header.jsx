@@ -13,25 +13,25 @@ export default function Header() {
             <nav className="header-nav">
               <a
                 className="header-nav-link"
-                href="find"
+                href="/find"
               >
                 Find post
               </a>
               <a
                 className="header-nav-link"
-                href="posts"
+                href="/posts"
               >
                 All posts
               </a>
               <a
                 className="header-nav-link"
-                href="my-posts"
+                href="/my-posts"
               >
                 My posts
               </a>
               <a
                 className="header-nav-link"
-                href="create"
+                href="/create"
               >
                 New post
               </a>

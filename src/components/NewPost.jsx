@@ -214,7 +214,7 @@ export default function PostUploader() {
           ))}
         </select>
       
-        <label className="label">By submitting a post you agree to the <a href="terms" target="_blank">terms of service</a>.</label>
+        <label className="label">By submitting a post you agree to the <a href="terms" target="_blank">terms of use</a>.</label>
 
         <button
           type="submit"

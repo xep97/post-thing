@@ -127,7 +127,7 @@ export default function PostCard({ post, onDeleted }) {
             }}
             className="button"
           >
-            Copy text
+            Copy
           </button>
           <button
             onClick={() => {
@@ -136,7 +136,7 @@ export default function PostCard({ post, onDeleted }) {
             }}
             className="button"
           >
-            Copy ID
+            Share
           </button>
           {isAuthor && (
             <button
