@@ -44,9 +44,15 @@ const oormorant_SC = Cormorant_SC({
 });
 
 export const metadata = {
-  title: "Post something",
+  title: "TimePost",
   description: "Post something",
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' }
+    ]
+  }
 };
+
 
 export default function RootLayout({ children }) {
   return (

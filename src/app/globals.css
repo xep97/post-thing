@@ -309,6 +309,9 @@ h3, h3 > * {
   max-width: 100%;
   width: 800px;
 }
+.main-list img {
+  margin-top: 80px;
+}
 .main-link {
   padding: 20px;
   background-color: var(--bg-3);

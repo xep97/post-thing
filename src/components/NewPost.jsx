@@ -16,6 +16,9 @@ export default function PostUploader() {
   const [availableTo, setAvailableTo] = useState("");
   const [authorKey, setAuthorKey] = useState("");
 
+  const [startTime, setStartTime] = useState(0);
+
+
   // Preferences UI
   const [fontOptions, setFontOptions] = useState([]);
   const [selectedFont, setSelectedFont] = useState("");
@@ -30,6 +33,11 @@ export default function PostUploader() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+  setStartTime(Date.now());
+}, []);
+
 
   useEffect(() => {
     let storedKey = localStorage.getItem("authorKey");
@@ -52,6 +60,15 @@ export default function PostUploader() {
   e.preventDefault();
   setLoading(true);
   setMessage("");
+
+  // Time-based human verification
+  const elapsed = Date.now() - startTime;
+  if (elapsed < 8000) { // less than 8 seconds
+    setLoading(false);
+    setMessage("❌ Bot-like fast submission detected.");
+    return;
+  }
+
 
   const preferences = {
     font: selectedFont,

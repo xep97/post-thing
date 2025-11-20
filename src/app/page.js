@@ -5,10 +5,10 @@ export default function Home() {
     <div className="main-list">
       <Image
         className="icons"
-        src="/timepost.png"
+        src="/timepostlogo.png"
         alt="Timepost"
-        width={384}
-        height={384}
+        width={226}
+        height={211}
       />
       <h1 className="">
         Post something and choose when it should be visible
