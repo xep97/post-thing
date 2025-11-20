@@ -80,50 +80,59 @@ export default function PostUploader() {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
 
-    const hslColor = hexToHsl(colorHex);
+  const hslColor = hexToHsl(colorHex);
 
-    const preferences = {
-      /*
-      color: {
-        hex: colorHex,
-        hsl: hslColor,
-      },*/
-      font: selectedFont,
-
-      hue: hue
-    };
-
-    const { error } = await supabase
-      .from("posts")
-      .insert([
-        {
-          name,
-          content,
-          available_from: availableFrom ? new Date(availableFrom).toISOString() : null,
-          available_to: availableTo ? new Date(availableTo).toISOString() : null,
-          author_key: authorKey,
-          preferences: preferences
-        }
-      ]);
-
-    setLoading(false);
-
-    if (error) {
-      setMessage("❌ Error: " + error.message);
-    } else {
-      setMessage("✅ Post saved!");
-      setName("");
-      setContent("");
-      setAvailableFrom("");
-      setAvailableTo("");
-      setColorHex("");
-      setHue(180);
-    }
+  const preferences = {
+    font: selectedFont,
+    hue: hue
   };
+
+  // Add .select() to return the inserted row
+  const { data, error } = await supabase
+    .from("posts")
+    .insert([
+      {
+        name,
+        content,
+        available_from: availableFrom ? new Date(availableFrom).toISOString() : null,
+        available_to: availableTo ? new Date(availableTo).toISOString() : null,
+        author_key: authorKey,
+        preferences: preferences
+      }
+    ])
+    .select() // returns the inserted row(s)
+    .single(); // ensures only one row
+
+  setLoading(false);
+
+  if (error) {
+    setMessage("❌ Error: " + error.message);
+  } else {
+    const postUrl = `/posts/${data.post_id}`;
+    setMessage(
+      <span>
+        ✅ Post saved!{" "}
+        <a href={postUrl} className="">
+          View Post
+        </a>
+      </span>
+    );
+
+    // Clear form
+    setName("");
+    setContent("");
+    setAvailableFrom("");
+    setAvailableTo("");
+    setColorHex("#6633ff");
+    setHue(180);
+  }
+
+};
+
 
   return (
     <div className="">
@@ -216,7 +225,7 @@ export default function PostUploader() {
         </button>
       </form>
 
-      {message && <p className="">{message}</p>}
+      {message && <p>{message}</p>}
     </div>
   );
 }

@@ -256,11 +256,17 @@ h3, h3 > * {
 .post .post-title {
   text-decoration: none;
 }
+.post-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
 .post .button {
   padding: 10px;
   background-color: transparent;
   color: var(--fg-1);
-  width: 80px;
+  width: 100px;
+  max-width: 100%;
   align-self: flex-end;
   border-radius: 10px;
   &:hover {

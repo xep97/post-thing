@@ -119,16 +119,36 @@ export default function PostCard({ post, onDeleted }) {
       {/* Countdown always visible */}
       <div className="post-countdown">{countdown}</div>
 
-      {isAuthor && (
-        <button
-          onClick={handleDelete}
-          disabled={loading}
-          className="button"
-          
-        >
-          {loading ? "Deleting..." : "Delete"}
-        </button>
-      )}
+        <div className="post-buttons">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(post.content);
+              alert(`Post content copied: ${post.content}`);
+            }}
+            className="button"
+          >
+            Copy text
+          </button>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(post.post_id);
+              alert(`Post ID copied: ${post.post_id}`);
+            }}
+            className="button"
+          >
+            Copy ID
+          </button>
+          {isAuthor && (
+            <button
+              onClick={handleDelete}
+              disabled={loading}
+              className="button"
+            >
+              {loading ? "Deleting..." : "Delete"}
+            </button>
+          )}
+        </div>
+
     </div>
   );
 }

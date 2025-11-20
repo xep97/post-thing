@@ -29,6 +29,7 @@ export default function PostPage() {
       setLoading(false);
     };
 
+
     fetchPost();
   }, [id]);
 
@@ -40,9 +41,14 @@ export default function PostPage() {
   if (error) return <div>Error: {error}</div>;
   if (!post) return <div>No post found.</div>;
 
+
+
   return (
     <div className="post-list post-page">
       <PostCard post={post} />
+      <style>
+        "--hue": `${post.preferences.hue}`
+      </style>
     </div>
   );
 }

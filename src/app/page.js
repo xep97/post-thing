@@ -34,7 +34,7 @@ export default function Home() {
         <p className="">
           By using this website you agree to the{" "}
           <a
-            href="/"
+            href="terms"
             className=""
           >
             terms of use
