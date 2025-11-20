@@ -2,52 +2,45 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="">
-      <main className="">
+    <div>
+      <div className="main-list">
+        <Image
+          className="icons"
+          src="/timepost.png"
+          alt="Timepost"
+          width={384}
+          height={384}
+        />
+        <h1 className="">
+          Post something and choose when it should be visible
+        </h1>
         
         <div className="">
-          <h1 className="">
-            TimePost
-          </h1>
-          <p className="">
-            Make a post and choose when it should be visible for people to see{" "}
-            
-          </p>
-          <div className="">
-            <a
-              className=""
-              href="create"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className="dark:invert"
-                src="/file.svg"
-                alt="Vercel logomark"
-                width={16}
-                height={16}
-              />
-              Create a post
-            </a>
-            <a
-              className=""
-              href="find"
-              rel="noopener noreferrer"
-            >
-              Find a post
-            </a>
-          </div>
-          <p className="">
-            By using this website you agree to the{" "}
-            <a
-              href="/"
-              className=""
-            >
-              terms of use
-            </a>
-          </p>
+          <a
+            className="main-link"
+            href="create"
+            rel="noopener noreferrer"
+          >
+            Create a post
+          </a>
+          <a
+            className="main-link"
+            href="find"
+            rel="noopener noreferrer"
+          >
+            Find a post
+          </a>
         </div>
-        
-      </main>
+        <p className="">
+          By using this website you agree to the{" "}
+          <a
+            href="/"
+            className=""
+          >
+            terms of use
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

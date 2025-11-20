@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 // All possible fonts — you can add/remove as needed
 const ALL_FONTS = [
-  "Geist", "Geist_Mono", "Pacifico", "Roboto", "Chewy", "Schoolbell", "Orbitron", "Cormorant_SC"
+  "Geist", "Pacifico", "Roboto", "Chewy", "Schoolbell", "Orbitron", "Cormorant_SC"
 ];
 
 // Convert HEX → HSL
@@ -87,13 +87,13 @@ export default function PostUploader() {
     const hslColor = hexToHsl(colorHex);
 
     const preferences = {
+      /*
       color: {
         hex: colorHex,
         hsl: hslColor,
-      },
+      },*/
       font: selectedFont,
 
-      // 🌈 NEW: hue field in JSON
       hue: hue
     };
 
@@ -120,7 +120,7 @@ export default function PostUploader() {
       setContent("");
       setAvailableFrom("");
       setAvailableTo("");
-      setColorHex("#6633ff");
+      setColorHex("");
       setHue(180);
     }
   };
@@ -135,6 +135,7 @@ export default function PostUploader() {
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          style={{ fontFamily: selectedFont }}
           required
         />
 
@@ -144,6 +145,7 @@ export default function PostUploader() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={3}
+          style={{ fontFamily: selectedFont }}
           required
         />
 
@@ -153,6 +155,7 @@ export default function PostUploader() {
           className="input-date"
           value={availableFrom}
           onChange={(e) => setAvailableFrom(e.target.value)}
+          required
         />
       
         <label className="label">Available To</label>
@@ -161,6 +164,7 @@ export default function PostUploader() {
           className="input-date"
           value={availableTo}
           onChange={(e) => setAvailableTo(e.target.value)}
+          required
         />
         
         <label className="label">Your user ID. Save it and/or replace it to login with another account.</label>
@@ -195,7 +199,7 @@ export default function PostUploader() {
           onChange={(e) => setSelectedFont(e.target.value)}
         >
           {fontOptions.map((font) => (
-            <option key={font} value={font}>
+            <option key={font} value={font} style={{ fontFamily: font }}>
               {font}
             </option>
           ))}

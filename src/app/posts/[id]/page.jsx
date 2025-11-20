@@ -41,7 +41,7 @@ export default function PostPage() {
   if (!post) return <div>No post found.</div>;
 
   return (
-    <div className="post-list">
+    <div className="post-list post-page">
       <PostCard post={post} />
     </div>
   );

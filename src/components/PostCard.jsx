@@ -16,12 +16,8 @@ export default function PostCard({ post, onDeleted }) {
   const prefs = post.preferences || {};
   const fontFamily = prefs.font || "inherit";
 
-  let hsl = prefs.color?.hsl;
   let textColor = "inherit";
 
-  if (hsl && typeof hsl.h === "number") {
-    textColor = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-  }
   // ---------------------------------------------------------------------
 
   useEffect(() => {
@@ -81,8 +77,16 @@ export default function PostCard({ post, onDeleted }) {
 
   const showContent = isActive || isAuthor;
 
+
+
   return (
-    <div className="post">
+    <div 
+      className="post"
+        style={{
+        "--hue": `${post.preferences.hue}`
+      }}
+    
+    >
       
       {showContent && (
         <>
@@ -119,7 +123,8 @@ export default function PostCard({ post, onDeleted }) {
         <button
           onClick={handleDelete}
           disabled={loading}
-          className="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          className="button"
+          
         >
           {loading ? "Deleting..." : "Delete"}
         </button>
