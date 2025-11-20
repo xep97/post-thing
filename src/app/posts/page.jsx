@@ -1,11 +1,37 @@
-import React from 'react'
-import Post from '@/components/Post'
+"use client";
 
-export default function page() {
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import PostCard from "@/components/PostCard.jsx";
+
+export default function PostsPage() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch posts once
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .order("id", { ascending: false });
+
+      if (!error) setPosts(data);
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
-    <>
-        <h1>Post goes under this v</h1>
-        <Post />
-    </>
-  )
+    <div className="post-list">
+      <h1 className="page-title">Posts</h1>
+
+      {loading && <p>Loading…</p>}
+
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </div>
+  );
 }
