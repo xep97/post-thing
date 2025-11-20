@@ -12,13 +12,12 @@ export default function PostCard({ post, onDeleted }) {
   const fromTime = post.available_from ? new Date(post.available_from) : null;
   const toTime = post.available_to ? new Date(post.available_to) : null;
 
-  // ------------- NEW: Extract styling from preferences ------------------
+  // Extract styling from preferences 
   const prefs = post.preferences || {};
   const fontFamily = prefs.font || "inherit";
 
   let textColor = "inherit";
 
-  // ---------------------------------------------------------------------
 
   useEffect(() => {
     const storedKey = localStorage.getItem("authorKey");
@@ -120,15 +119,18 @@ export default function PostCard({ post, onDeleted }) {
       <div className="post-countdown">{countdown}</div>
 
         <div className="post-buttons">
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(post.content);
-              alert(`Post content copied: ${post.content}`);
-            }}
-            className="button"
-          >
-            Copy
-          </button>
+          {isActive && (
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(post.content);
+                alert(`Post content copied: ${post.content}`);
+              }}
+              className="button"
+            >
+              Copy
+            </button>
+          )}
+
           <button
             onClick={() => {
               navigator.clipboard.writeText(post.post_id);
@@ -138,6 +140,7 @@ export default function PostCard({ post, onDeleted }) {
           >
             Share
           </button>
+
           {isAuthor && (
             <button
               onClick={handleDelete}
@@ -148,6 +151,7 @@ export default function PostCard({ post, onDeleted }) {
             </button>
           )}
         </div>
+
 
     </div>
   );

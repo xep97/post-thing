@@ -8,36 +8,6 @@ const ALL_FONTS = [
   "Geist", "Pacifico", "Roboto", "Chewy", "Schoolbell", "Orbitron", "Cormorant_SC"
 ];
 
-// Convert HEX → HSL
-function hexToHsl(hex) {
-  hex = hex.replace("#", "");
-  const r = parseInt(hex.substring(0, 2), 16) / 255;
-  const g = parseInt(hex.substring(2, 4), 16) / 255;
-  const b = parseInt(hex.substring(4, 6), 16) / 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0, s = 0;
-  let l = (max + min) / 2;
-
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
-    }
-    h /= 6;
-  }
-
-  return {
-    h: Math.round(h * 360),
-    s: Math.round(s * 100),
-    l: Math.round(l * 100)
-  };
-}
 
 export default function PostUploader() {
   const [name, setName] = useState("");
@@ -47,7 +17,6 @@ export default function PostUploader() {
   const [authorKey, setAuthorKey] = useState("");
 
   // Preferences UI
-  const [colorHex, setColorHex] = useState("#6633ff");
   const [fontOptions, setFontOptions] = useState([]);
   const [selectedFont, setSelectedFont] = useState("");
 
@@ -83,8 +52,6 @@ export default function PostUploader() {
   e.preventDefault();
   setLoading(true);
   setMessage("");
-
-  const hslColor = hexToHsl(colorHex);
 
   const preferences = {
     font: selectedFont,
@@ -127,7 +94,6 @@ export default function PostUploader() {
     setContent("");
     setAvailableFrom("");
     setAvailableTo("");
-    setColorHex("#6633ff");
     setHue(180);
   }
 
@@ -135,7 +101,7 @@ export default function PostUploader() {
 
 
   return (
-    <div className="">
+    <div className="main-list">
       <form onSubmit={handleSubmit} className="new-post">
 
         <input
